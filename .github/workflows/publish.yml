@@ -1,0 +1,25 @@
+name: publish
+# A version tag (from release.yml): its GitHub release, with what changed since the last one,
+# and the package on its registry. Each registry step runs once the registry is set up and
+# the repo variable that turns it on is "true" (see RELEASING.md in InID's repo).
+on:
+  push:
+    tags: ["v*"]
+permissions:
+  contents: write
+  id-token: write
+jobs:
+  github:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: GitHub release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          previous=$(git describe --tags --abbrev=0 --match 'v[0-9]*' "$GITHUB_REF_NAME^" 2>/dev/null || true)
+          git log --format='- %s' "${previous:+$previous..}$GITHUB_REF_NAME" -- . ':(exclude).github' > notes.md
+          gh release create "$GITHUB_REF_NAME" --title "$GITHUB_REF_NAME" --notes-file notes.md --verify-tag
+  # Packagist reads the tags itself (the repo's GitHub hook, set when the package is submitted)
