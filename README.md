@@ -1,6 +1,6 @@
 # inid/inid
 
-Sign-in with [InID](https://inid.co) for PHP and Laravel. People sign in with their phone (a code by WhatsApp or SMS), Face ID, their fingerprint or Google, without passwords. Your server knows who they are, their role and their permissions.
+Sign-in with [InID](https://inid.co) for PHP and Laravel. People sign in with their phone (a code by WhatsApp or SMS), a passkey (Face ID, fingerprint, Windows Hello or the device PIN) or Google, without passwords. Your server knows who they are, their role and their permissions.
 
 The package covers the sign-in routes, a session that renews itself, paths protected by role or permission, webhooks, InID's API for your users, and bearer tokens from native apps. It has no dependencies beyond PHP 8.1 with `ext-openssl` and `ext-json`. Laravel is optional.
 
